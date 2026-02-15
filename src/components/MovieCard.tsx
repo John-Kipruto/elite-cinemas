@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import type { Movie } from '../types/movie';
 
 interface MovieCardProps {
@@ -13,8 +14,9 @@ const MovieCard = ({ movie, isLarge = false }: MovieCardProps) => {
   const defaultPoster = 'https://via.placeholder.com/300x450?text=No+Image';
 
   return (
-    <div
-      className={`relative transition-all duration-300 cursor-pointer group ${
+    <Link
+      to={`/movie/${movie.imdbID}`}
+      className={`relative transition-all duration-300 cursor-pointer group block ${
         isLarge ? 'min-w-[200px] md:min-w-[300px]' : 'min-w-[150px] md:min-w-[200px]'
       }`}
       onMouseEnter={() => setIsHovered(true)}
@@ -42,7 +44,7 @@ const MovieCard = ({ movie, isLarge = false }: MovieCardProps) => {
           </div>
         )}
       </div>
-    </div>
+    </Link>
   );
 };
 

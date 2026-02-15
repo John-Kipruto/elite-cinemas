@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Movies from './pages/Movies';
 import Shows from './pages/Shows';
 import NewPopular from './pages/NewPopular';
+import MovieDetails from './pages/MovieDetails';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/shows" element={<Shows />} />
           <Route path="/new-popular" element={<NewPopular />} />
           <Route path="/movies" element={<Movies />} />
+          <Route path="/movie/:id" element={<MovieDetails />} />
         </Routes>
       </div>
     </Router>

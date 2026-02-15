@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import MovieRow from '../components/MovieRow';
-import SearchBar from '../components/SearchBar';
-import type { Movie } from '../types/movie';
-import { getMoviesBySearch, searchMovies } from '../services/omdbApi';
+import { useState, useEffect } from "react";
+import MovieRow from "../components/MovieRow";
+import SearchBar from "../components/SearchBar";
+import type { Movie } from "../types/movie";
+import { getMoviesBySearch, searchMovies } from "../services/omdbApi";
 
 const Shows = () => {
   const [trendingShows, setTrendingShows] = useState<Movie[]>([]);
@@ -19,16 +19,16 @@ const Shows = () => {
       try {
         // Search for TV series
         const [trending, drama, comedy] = await Promise.all([
-          searchMovies('series', 1).then(res => res.Search || []),
-          searchMovies('drama series', 1).then(res => res.Search || []),
-          searchMovies('comedy series', 1).then(res => res.Search || []),
+          searchMovies("series", 1, "series").then((res) => res.Search || []),
+          searchMovies("drama", 1, "series").then((res) => res.Search || []),
+          searchMovies("comedy", 1, "series").then((res) => res.Search || []),
         ]);
 
         setTrendingShows(trending.slice(0, 10));
         setDramaShows(drama.slice(0, 10));
         setComedyShows(comedy.slice(0, 10));
       } catch (error) {
-        console.error('Error fetching shows:', error);
+        console.error("Error fetching shows:", error);
       } finally {
         setIsLoading(false);
       }
@@ -43,12 +43,12 @@ const Shows = () => {
     try {
       const results = await getMoviesBySearch(query);
       // Filter for series type
-      const seriesResults = results.filter(movie => 
-        movie.Type.toLowerCase() === 'series'
+      const seriesResults = results.filter(
+        (movie) => movie.Type.toLowerCase() === "series",
       );
       setSearchResults(seriesResults);
     } catch (error) {
-      console.error('Error searching shows:', error);
+      console.error("Error searching shows:", error);
       setSearchResults([]);
     } finally {
       setIsSearching(false);
@@ -83,7 +83,9 @@ const Shows = () => {
 
         {!isSearching && hasSearched && searchResults.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-xl text-gray-400">No shows found. Try a different search term.</p>
+            <p className="text-xl text-gray-400">
+              No shows found. Try a different search term.
+            </p>
           </div>
         )}
 
@@ -94,7 +96,11 @@ const Shows = () => {
         {!hasSearched && (
           <>
             {trendingShows.length > 0 && (
-              <MovieRow title="Trending Shows" movies={trendingShows} isLargeRow />
+              <MovieRow
+                title="Trending Shows"
+                movies={trendingShows}
+                isLargeRow
+              />
             )}
             {dramaShows.length > 0 && (
               <MovieRow title="Drama Series" movies={dramaShows} />
